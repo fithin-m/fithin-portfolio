@@ -1,16 +1,17 @@
 "use client"
-import React from 'react';
+import React, { useState } from 'react';
 import { FaMagic } from 'react-icons/fa';
+import { HiMenu, HiX } from 'react-icons/hi';
 import { Button } from '@/components/ui/button';
 import { config } from '@/config';
 import Image from 'next/image';
 import Link from 'next/link';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 
 const NAV_ITEMS = config.NAV_ITEMS;
 
-const NavLink = ({ href, label }) => {
+const NavLink = ({ href, label, onClick }) => {
     const pathname = usePathname();
     const isActive = pathname === href;
 
@@ -18,6 +19,7 @@ const NavLink = ({ href, label }) => {
         <Link
             href={href}
             className="relative"
+            onClick={onClick}
         >
             <motion.span
                 className={`relative px-4 py-2 text-gray-300 hover:text-white transition-colors ${isActive ? 'text-white' : ''
@@ -85,9 +87,9 @@ const Logo = () => (
     </motion.div>
 );
 
-const Navigation = () => (
+const Navigation = ({ mobile = false, onLinkClick }) => (
     <motion.nav
-        className="hidden md:flex space-x-2"
+        className={mobile ? "flex flex-col space-y-4" : "hidden md:flex space-x-2"}
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ delay: 0.3, duration: 0.5 }}
@@ -99,11 +101,51 @@ const Navigation = () => (
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.1 * index }}
             >
-                <NavLink {...item} />
+                <NavLink {...item} onClick={onLinkClick} />
             </motion.div>
         ))}
     </motion.nav>
 );
+
+const MobileMenu = ({ isOpen, onClose }) => {
+    return (
+        <AnimatePresence>
+            {isOpen && (
+                <>
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        transition={{ duration: 0.2 }}
+                        className="fixed inset-0 bg-black/80 backdrop-blur-sm z-40 md:hidden"
+                        onClick={onClose}
+                    />
+                    <motion.div
+                        initial={{ x: "100%" }}
+                        animate={{ x: 0 }}
+                        exit={{ x: "100%" }}
+                        transition={{ type: "spring", damping: 25, stiffness: 200 }}
+                        className="fixed top-0 right-0 h-full w-64 bg-secondary/95 backdrop-blur-lg z-50 md:hidden shadow-2xl border-l border-white/10"
+                    >
+                        <div className="flex flex-col h-full p-6">
+                            <div className="flex items-center justify-between mb-8">
+                                <span className="text-lg font-semibold text-white">Menu</span>
+                                <button
+                                    onClick={onClose}
+                                    className="p-2 rounded-lg hover:bg-white/10 transition-colors"
+                                    aria-label="Close menu"
+                                >
+                                    <HiX className="w-6 h-6 text-white" />
+                                </button>
+                            </div>
+                            <Navigation mobile={true} onLinkClick={onClose} />
+                        </div>
+                    </motion.div>
+                </>
+            )}
+        </AnimatePresence>
+    );
+};
 
 const ContactButton = () => (
     <motion.div
@@ -121,18 +163,34 @@ const ContactButton = () => (
 );
 
 const Header = () => {
+    const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
     return (
-        <motion.header
-            className="py-9 z-50 text-white"
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-        >
-            <div className="container mx-auto flex items-center justify-between md:px-64 px-6">
-                <Logo />
-                <Navigation />
-            </div>
-        </motion.header>
+        <>
+            <motion.header
+                className="py-9 z-50 text-white"
+                initial={{ opacity: 0, y: -20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
+            >
+                <div className="container mx-auto flex items-center justify-between md:px-64 px-6">
+                    <Logo />
+                    <Navigation />
+                    <button
+                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+                        className="md:hidden p-2 rounded-lg hover:bg-white/10 transition-colors"
+                        aria-label="Toggle menu"
+                    >
+                        {mobileMenuOpen ? (
+                            <HiX className="w-6 h-6 text-white" />
+                        ) : (
+                            <HiMenu className="w-6 h-6 text-white" />
+                        )}
+                    </button>
+                </div>
+            </motion.header>
+            <MobileMenu isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
+        </>
     );
 };
 

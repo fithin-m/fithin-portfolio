@@ -134,16 +134,24 @@ const HeroSection = () => {
 
           <motion.div
             variants={itemAnimation}
-            className="flex flex-wrap gap-4 justify-center pt-6"
+            className="flex flex-wrap gap-4 justify-center pt-6 px-4"
           >
             <Link href={"/projects"}>
               <Button
                 variant="expandIcon"
                 Icon={HiArrowRight}
                 iconPlacement="right"
-                className="rounded-full px-6 py-6 text-base transition-all duration-300 hover:scale-105 font-semibold"
+                className="rounded-full px-4 py-4 md:px-6 md:py-6 text-sm md:text-base transition-all duration-300 hover:scale-105 font-semibold w-full sm:w-auto"
               >
                 View Projects
+              </Button>
+            </Link>
+            <Link href={"/contact"}>
+              <Button
+                variant="outline"
+                className="rounded-full px-4 py-4 md:px-6 md:py-6 text-sm md:text-base transition-all duration-300 hover:scale-105 font-semibold border-2 border-primary/50 hover:border-primary text-primary hover:bg-primary/10 w-full sm:w-auto"
+              >
+                Contact Us
               </Button>
             </Link>
           </motion.div>
