@@ -1,5 +1,5 @@
 "use client"
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { FaMagic } from 'react-icons/fa';
 import { HiMenu, HiX } from 'react-icons/hi';
 import { Button } from '@/components/ui/button';
@@ -13,16 +13,23 @@ const NAV_ITEMS = config.NAV_ITEMS;
 
 const NavLink = ({ href, label, onClick }) => {
     const pathname = usePathname();
-    const isActive = pathname === href;
+    // Match exact path or if pathname starts with href (for nested routes)
+    const isActive = pathname === href || pathname.startsWith(href + '/');
+
+    const handleClick = (e) => {
+        if (onClick) {
+            onClick(e);
+        }
+    };
 
     return (
         <Link
             href={href}
             className="relative"
-            onClick={onClick}
+            onClick={handleClick}
         >
             <motion.span
-                className={`relative px-4 py-2 text-gray-300 hover:text-white transition-colors ${isActive ? 'text-white' : ''
+                className={`relative px-4 py-2 text-gray-300 hover:text-white transition-colors cursor-pointer ${isActive ? 'text-white' : ''
                     }`}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
@@ -109,7 +116,7 @@ const Navigation = ({ mobile = false, onLinkClick }) => (
 
 const MobileMenu = ({ isOpen, onClose }) => {
     return (
-        <AnimatePresence>
+        <AnimatePresence mode="wait">
             {isOpen && (
                 <>
                     <motion.div
@@ -117,7 +124,7 @@ const MobileMenu = ({ isOpen, onClose }) => {
                         animate={{ opacity: 1 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.2 }}
-                        className="fixed inset-0 bg-black/80 backdrop-blur-sm z-40 md:hidden"
+                        className="fixed inset-0 bg-black/80 backdrop-blur-sm z-[60] md:hidden"
                         onClick={onClose}
                     />
                     <motion.div
@@ -125,14 +132,15 @@ const MobileMenu = ({ isOpen, onClose }) => {
                         animate={{ x: 0 }}
                         exit={{ x: "100%" }}
                         transition={{ type: "spring", damping: 25, stiffness: 200 }}
-                        className="fixed top-0 right-0 h-full w-64 bg-secondary/95 backdrop-blur-lg z-50 md:hidden shadow-2xl border-l border-white/10"
+                        className="fixed top-0 right-0 h-full w-64 bg-secondary/95 backdrop-blur-lg z-[70] md:hidden shadow-2xl border-l border-white/10"
+                        onClick={(e) => e.stopPropagation()}
                     >
                         <div className="flex flex-col h-full p-6">
                             <div className="flex items-center justify-between mb-8">
                                 <span className="text-lg font-semibold text-white">Menu</span>
                                 <button
                                     onClick={onClose}
-                                    className="p-2 rounded-lg hover:bg-white/10 transition-colors"
+                                    className="p-2 rounded-lg hover:bg-white/10 transition-colors z-10 relative"
                                     aria-label="Close menu"
                                 >
                                     <HiX className="w-6 h-6 text-white" />
@@ -164,11 +172,25 @@ const ContactButton = () => (
 
 const Header = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+    const pathname = usePathname();
+
+    // Close mobile menu when route changes
+    useEffect(() => {
+        setMobileMenuOpen(false);
+    }, [pathname]);
+
+    const handleMobileMenuToggle = () => {
+        setMobileMenuOpen(!mobileMenuOpen);
+    };
+
+    const handleMobileMenuClose = () => {
+        setMobileMenuOpen(false);
+    };
 
     return (
         <>
             <motion.header
-                className="py-9 z-50 text-white"
+                className="py-9 z-50 text-white relative"
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5 }}
@@ -177,8 +199,8 @@ const Header = () => {
                     <Logo />
                     <Navigation />
                     <button
-                        onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                        className="md:hidden p-2 rounded-lg hover:bg-white/10 transition-colors"
+                        onClick={handleMobileMenuToggle}
+                        className="md:hidden p-2 rounded-lg hover:bg-white/10 transition-colors z-50 relative"
                         aria-label="Toggle menu"
                     >
                         {mobileMenuOpen ? (
@@ -189,7 +211,7 @@ const Header = () => {
                     </button>
                 </div>
             </motion.header>
-            <MobileMenu isOpen={mobileMenuOpen} onClose={() => setMobileMenuOpen(false)} />
+            <MobileMenu isOpen={mobileMenuOpen} onClose={handleMobileMenuClose} />
         </>
     );
 };
