@@ -4,7 +4,7 @@ import {
     SiNextdotjs, SiReact, SiTailwindcss, SiJavascript, SiTypescript, 
     SiFramer, SiHtml5, SiCss3, SiNodedotjs, SiExpress, SiGraphql, 
     SiPython, SiPostgresql, SiMongodb, SiMysql, SiRedis, SiFirebase,
-    SiFlutter, SiDart, SiDocker, SiGit, SiVisualstudiocode,
+    SiFlutter, SiDart, SiDocker, SiGit,
     SiPostman, SiLinux, SiVercel, SiAmazon, SiGithubactions, SiRedux
 } from "react-icons/si";
 
@@ -145,7 +145,7 @@ export const config = {
             technologies: [
                 { name: "Docker", icon: SiDocker },
                 { name: "Git", icon: SiGit },
-                { name: "VS Code", icon: SiVisualstudiocode },
+                { name: "VS Code", icon: null },
                 { name: "Postman", icon: SiPostman },
                 // { name: "Linux", icon: SiLinux },
                 { name: "Vercel", icon: SiVercel },
