@@ -79,7 +79,7 @@ const HireStreetStory = () => {
                         variants={itemAnimation}
                         className="text-4xl md:text-6xl font-bold text-primary leading-tight"
                     >
-                        HireStreet — A Startup That Changed Me
+                        HireStreet — A Startup Journey
                     </motion.h1>
 
                     <motion.p
