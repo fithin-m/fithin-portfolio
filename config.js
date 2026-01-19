@@ -16,10 +16,10 @@ export const config = {
     },
     social: {
         github: "fithin-m",
-        discord: "1155137511954337887"
     },
     NAV_ITEMS: [
         { href: '/projects', label: 'Projects' },
+        { href: '/journey', label: 'My Journey' },
         { href: '/contact', label: 'Contact' }
     ],
     recentTracks: true, // Enable/disable Spotify recent tracks
