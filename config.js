@@ -63,7 +63,7 @@ export const config = {
             image: "/projects/Noor.jpeg",
             technologies: ["React", "Sanity CMS"],
             github: null,
-            demo: null
+            demo: "https://noorqi.com"
         },
         {
             id: 5,
