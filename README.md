@@ -2,20 +2,8 @@
 
 A modern, responsive portfolio website built with Next.js.
 
-## Features
-
-- 🎨 Modern UI with dark/light theme support
-- 🎵 Spotify integration for recent tracks
-- 📱 Fully responsive design
-- ⚡ Built with Next.js and Tailwind CSS
-- 🎭 Smooth animations with Framer Motion
 
 ## Getting Started
-
-### Prerequisites
-
-- Node.js 18+ installed
-- npm or yarn package manager
 
 ### Installation
 
@@ -45,13 +33,6 @@ npm run dev
 
 5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Available Scripts
-
-- `npm run dev` - Start development server with Turbopack
-- `npm run build` - Build for production
-- `npm run start` - Start production server
-- `npm run lint` - Run ESLint
-- `npm run spotify-auth` - Authenticate with Spotify API
 
 ## Tech Stack
 
