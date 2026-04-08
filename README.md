@@ -1,4 +1,4 @@
-# Portfolio
+ # Portfolio
 
 A modern, responsive portfolio website built with Next.js.
 
@@ -42,7 +42,4 @@ npm run dev
 - **UI Components**: Radix UI
 - **Icons**: Lucide React, React Icons
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
