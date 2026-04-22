@@ -3,6 +3,7 @@
 A modern, responsive portfolio website built with Next.js.
 
 
+
 ## Getting Started
 
 ### Installation
